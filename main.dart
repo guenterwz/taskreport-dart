@@ -153,5 +153,22 @@ void main() {
       item.exibirResumo();
   }
 
+  print('\nTarefas filtradas por status');//  RF07 – Filtrar tarefas por status
+
+  List<Tarefa> concluidas = lista.where((lista) => lista.status == 'concluida').toList();
+  print('\nConcluidas:');
+  concluidas.forEach((concluidas) => print('-  ${concluidas.titulo}'));
+
+  List<Tarefa> emAndamento = lista.where((lista) => lista.status == 'em andamento').toList();
+  print('\nEm Andamento:');
+  emAndamento.forEach((emAndamento) => print('- ${emAndamento.titulo}'));
+
+  List<Tarefa> pendente = lista.where((lista) => lista.status == 'pendente').toList();
+  print('\nPendentes:');
+  pendente.forEach((pendente) => print('- ${pendente.titulo}'));
+
+  List<Tarefa> cancelada = lista.where((lista) => lista.status == 'cancelada').toList();
+  print('\nCancelada:');
+  cancelada.forEach((cancelada) => print('- ${cancelada.titulo}'));
 
 }
