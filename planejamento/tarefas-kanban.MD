@@ -1,0 +1,1 @@
+Link para acesso: https://trello.com/invite/b/6a1b022a6d5fa8bcc213aed4/ATTI832ad2b63aec8fc2b43bb343bc82adffC97B3103/meu-quadro-do-trello

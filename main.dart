@@ -64,7 +64,7 @@ final List<Map<String, dynamic>> dadosTarefas = [
   },
 ];
 
-class ItemTrabalho {
+class ItemTrabalho {  //  RF13 – Criar classe base e classe filha
   int id;
   String titulo;
   ItemTrabalho({required this.id, required this.titulo});
@@ -74,6 +74,7 @@ class ItemTrabalho {
 }
 
 class Tarefa extends ItemTrabalho {
+  //  RF01 – Transformar mapas em objetos
   int id;
   String titulo;
   String responsavel;
@@ -92,26 +93,65 @@ class Tarefa extends ItemTrabalho {
     required this.horas,
   }) : super(id: id, titulo: titulo);
 
-  factory Tarefa.doMapa(Map m) {
+  factory Tarefa.doMapa(Map<String, dynamic> m) {
     return Tarefa(
       id: m['id'],
-      titulo: m['titulo'].toString().isNotEmpty ? m['titulo'] : 'Sem título',
-      responsavel: m['responsavel'].toString().isNotEmpty
-          ? m['responsavel']
+      titulo: m['titulo'] != null
+          ? m['titulo'].toString().trim()
+          : 'Sem título',
+      responsavel:
+          m['responsavel'] != null //  RF02 – Tratar campos nulos
+          ? m['responsavel'].toString().trim()
           : 'Não informado',
-      horas: m['horas'].toString().isNotEmpty ? m['horas'] : 0,
-      prioridade: m['prioridade'].toString().isNotEmpty
-          ? m['prioridade']
+      horas: m['horas'] != null ? int.tryParse(m['horas'].toString()) ?? 0 : 0,  //  RF05 – Converter horas para número inteiro
+      prioridade: m['prioridade'] != null
+          ? m['prioridade'].toString().trim()
           : 'sem prioridade',
-      status: m['status'].toString().isNotEmpty ? m['status'] : 'sem status',
-      valor: m['valor'].toString().isNotEmpty ? m['valor'] : 0.0,
+      status: m['status'] != null
+          ? m['status'].toString().trim()
+          : 'sem status',
+      valor: m['valor'] != null ? converterValor(m['valor']) : 0.0,
     );
   }
 
   @override
   void exibirResumo() {
-    print('Tarefa $id - $titulo | Status: $status | Valor: R\$ $valor');
+    print('ID: $id\nTitulo: $titulo\nResponsavel: $responsavel\nStatus: $status\nPrioridade: $prioridade\nValor: R\$ $valor\nHoras: $horas\n\n');
   }
 }
 
-void main() {}
+/*
+Tarefa converterMapParaTarefa(Map<String, dynamic> m) {
+  return Tarefa(
+    id: m['id'],
+    titulo: m['titulo'] ?? 'Sem título',
+    responsavel: m['responsavel'] ?? 'Não informado',
+    status: m['status'] ?? 'sem status',
+    prioridade: m['prioridade'] ?? 'sem prioridade',
+    valor: converterValor(m['valor']),
+    horas: m['horas'] != null ? int.tryParse(m['horas'].toString()) ?? 0 : 0,
+  );
+}
+*/
+
+double converterValor(dynamic valor) {  //  RF04 – Converter valor monetário para número
+  if (valor == null) {
+    return 0.0;
+  }
+
+  String valorTexto = valor.toString();
+  valorTexto = valorTexto.replaceAll('R\$', '');
+  valorTexto = valorTexto.replaceAll(' ', '');
+  valorTexto = valorTexto.replaceAll(',', '.');
+  return double.tryParse(valorTexto) ?? 0;
+}
+
+void main() {
+  List<Tarefa> lista = dadosTarefas.map((map) => Tarefa.doMapa(map)).toList();
+
+  for(var item in lista){  //  RF06 – Exibir todas as tarefas convertidas
+      item.exibirResumo();
+  }
+
+
+}
