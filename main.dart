@@ -63,3 +63,55 @@ final List<Map<String, dynamic>> dadosTarefas = [
     'horas': '2',
   },
 ];
+
+class ItemTrabalho {
+  int id;
+  String titulo;
+  ItemTrabalho({required this.id, required this.titulo});
+  void exibirResumo() {
+    print('Item $id - $titulo');
+  }
+}
+
+class Tarefa extends ItemTrabalho {
+  int id;
+  String titulo;
+  String responsavel;
+  String status;
+  String prioridade;
+  double valor;
+  int horas;
+
+  Tarefa({
+    required this.id,
+    required this.titulo,
+    required this.responsavel,
+    required this.status,
+    required this.prioridade,
+    required this.valor,
+    required this.horas,
+  }) : super(id: id, titulo: titulo);
+
+  factory Tarefa.doMapa(Map m) {
+    return Tarefa(
+      id: m['id'],
+      titulo: m['titulo'].toString().isNotEmpty ? m['titulo'] : 'Sem título',
+      responsavel: m['responsavel'].toString().isNotEmpty
+          ? m['responsavel']
+          : 'Não informado',
+      horas: m['horas'].toString().isNotEmpty ? m['horas'] : 0,
+      prioridade: m['prioridade'].toString().isNotEmpty
+          ? m['prioridade']
+          : 'sem prioridade',
+      status: m['status'].toString().isNotEmpty ? m['status'] : 'sem status',
+      valor: m['valor'].toString().isNotEmpty ? m['valor'] : 0.0,
+    );
+  }
+
+  @override
+  void exibirResumo() {
+    print('Tarefa $id - $titulo | Status: $status | Valor: R\$ $valor');
+  }
+}
+
+void main() {}
