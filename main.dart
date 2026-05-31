@@ -175,7 +175,12 @@ void main() {
 
   //  RF09 – Calcular média de valor das tarefas pendentes
   double somaPendentes = pendente.map((m) => m.valor).reduce((a, b) => a + b);
-  double mediaPendentes = somaPendentes / pendente.length;
+  double mediaPendentes = 0.0;
+  try{  //  Tratamento de exceções
+    mediaPendentes = somaPendentes / pendente.length;
+  } catch (e) {
+    print('Erro: $e');
+  }
   print(mediaPendentes > 0.0 ? '\nMedia de valor das tarefas pendentes: $mediaPendentes' : '\nNão existem tarefas pendentes para calcular média.');
 
   //  RF10 – Calcular total de horas por status
