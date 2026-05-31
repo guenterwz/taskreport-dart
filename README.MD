@@ -41,3 +41,6 @@ dart run main.dart
 
 Quadro Kanban:
 https://trello.com/b/ncFxMdgy
+
+Video:
+https://drive.google.com/file/d/17HRttBlZXddYPui8vGuzbBgRuErBEKze/view?usp=sharing
